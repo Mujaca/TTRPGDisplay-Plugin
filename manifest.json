@@ -6,5 +6,5 @@
 	"description": "Link Notes to the TTRPG Display.",
 	"author": "Mujaca",
 	"authorUrl": "https://mujaca.de",
-	"isDesktopOnly": true
+	"isDesktopOnly": false
 }
