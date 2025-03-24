@@ -9,6 +9,8 @@ import { playMusicCommand } from "commands/play-music-display-link";
 import { pauseMusicCommand } from "commands/pause-music-display-link";
 import { sendToDisplayLinkCommand } from "commands/send-to-display-link";
 import { createStatusBar } from "statusBar";
+import { openEnemyListCommand } from "commands/open-enemy-list";
+import { EnemyListView, view_type } from "ItemView/EnemyList";
 
 export default class DisplayLink extends Plugin {
 	settings: DisplayLinkSettings;
@@ -17,6 +19,11 @@ export default class DisplayLink extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
+        this.registerView(
+            view_type,
+            (leaf) => new EnemyListView(leaf)
+        );
+        
         const ribbonIconGMModal = this.addRibbonIcon('pencil', 'Display Link', (evt: MouseEvent) => {
 			new GMModal(this.app, this).open();
 		});
@@ -27,6 +34,7 @@ export default class DisplayLink extends Plugin {
         this.addCommand(resetDisplayLinkCommand);
         this.addCommand(playMusicCommand);
         this.addCommand(pauseMusicCommand);
+        this.addCommand(openEnemyListCommand);
 
 		this.addSettingTab(new TTRPGSettingTab(this.app, this));
 	}
