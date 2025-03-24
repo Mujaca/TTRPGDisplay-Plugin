@@ -12,6 +12,10 @@ export class EnemyListView extends ItemView {
     }
 
     getDisplayText(): string {
-        return "";
+        return "Enemy List Controller";
     }
+
+    async onOpen(): Promise<void> {
+        const container = this.containerEl;
+      }
 }
