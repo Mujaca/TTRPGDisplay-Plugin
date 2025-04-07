@@ -1,6 +1,7 @@
 import esbuild from "esbuild";
 import process from "process";
 import builtins from "builtin-modules";
+import Vue from "@the_tree/esbuild-plugin-vue3";
 
 const banner =
 `/*
@@ -17,6 +18,9 @@ const context = await esbuild.context({
 	},
 	entryPoints: ["main.ts"],
 	bundle: true,
+    plugins: [
+        Vue({ isProd: false })
+    ],
 	external: [
 		"obsidian",
 		"electron",
