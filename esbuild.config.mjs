@@ -19,7 +19,7 @@ const context = await esbuild.context({
 	entryPoints: ["main.ts"],
 	bundle: true,
     plugins: [
-        Vue({ isProd: false })
+        Vue({ isProd: prod })
     ],
 	external: [
 		"obsidian",
@@ -43,6 +43,14 @@ const context = await esbuild.context({
 	treeShaking: true,
 	outfile: "main.js",
 	minify: prod,
+});
+
+await esbuild.build({
+    entryPoints: ["./main.css"],
+    outfile: "styles.css",
+    bundle: true,
+    allowOverwrite: true,
+    minify: false,
 });
 
 if (prod) {
