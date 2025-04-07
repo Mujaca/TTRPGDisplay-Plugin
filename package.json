@@ -23,6 +23,8 @@
 		"vue": "^3.5.13"
 	},
 	"dependencies": {
-		"@the_tree/esbuild-plugin-vue3": "^0.3.1"
+		"@the_tree/esbuild-plugin-vue3": "^0.3.1",
+		"rxjs": "^7.8.2",
+		"vuedraggable": "^4.1.0"
 	}
 }

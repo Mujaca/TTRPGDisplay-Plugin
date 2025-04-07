@@ -1,8 +1,72 @@
-/*
-
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
-
-If your plugin does not need CSS, delete this file.
-
-*/
+/* main.css */
+.enemy-modal-header h1 {
+  margin-bottom: 0;
+}
+.enemy-modal-header h2 {
+  font-size: .8rem;
+  opacity: .5;
+  margin-top: 0;
+}
+.damage-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: .2rem;
+}
+.main {
+  height: 92%;
+  position: relative;
+  padding: 0 1rem;
+}
+.control-footer {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+}
+.control-footer button {
+  width: 100%;
+}
+.enemy-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.enemy-information {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.enemy-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.enemy-control-items {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  gap: .2rem;
+}
+.turn-indicator {
+  width: 24px;
+}
+.turn-icon {
+  display: flex;
+  align-items: center;
+}
+.turn-indicator.inactive .turn-index {
+  display: block;
+}
+.turn-indicator.active .turn-index {
+  display: none;
+}
+.turn-indicator.inactive .turn-icon {
+  display: none;
+}
+.turn-indicator.active .turn-icon {
+  display: block;
+}
+.enemy-text.active {
+  color: var(--color-accent);
+}
