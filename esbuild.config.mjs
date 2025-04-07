@@ -15,6 +15,7 @@ const prod = (process.argv[2] === "production");
 const context = await esbuild.context({
 	banner: {
 		js: banner,
+        css: banner,
 	},
 	entryPoints: ["main.ts"],
 	bundle: true,
@@ -45,17 +46,20 @@ const context = await esbuild.context({
 	minify: prod,
 });
 
-await esbuild.build({
+const styles = await esbuild.context({
     entryPoints: ["./main.css"],
     outfile: "styles.css",
     bundle: true,
+    treeShaking: true,
     allowOverwrite: true,
-    minify: false,
+    minify: prod,
 });
 
 if (prod) {
 	await context.rebuild();
+    await styles.rebuild();
 	process.exit(0);
 } else {
 	await context.watch();
+    await styles.watch();
 }
