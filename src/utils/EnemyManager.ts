@@ -1,3 +1,4 @@
+import { resetTurns } from "./TurnManager";
 import { v4 } from "./uuid";
 import { Observable, Subscriber } from 'rxjs';
 
@@ -47,6 +48,7 @@ export function updateEnemy(id: string, updatedEnemy: Enemy): void {
 }
 export function resetEnemys(): void {
 	currentEnemys = [];
+    resetTurns();
     sendEnemyListToSubscriber();
 }
 

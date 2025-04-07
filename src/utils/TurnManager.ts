@@ -16,3 +16,8 @@ export function advance(): { currentEnemy: number; currentTurn: number } {
 
     return { currentEnemy, currentTurn };
 }
+
+export function resetTurns() {
+    currentEnemy = 0;
+    currentTurn = 1;
+}
