@@ -1,3 +1,4 @@
+import { getCurrentSettings } from "settings";
 import { getCurrentEnemys } from "./EnemyManager";
 
 let currentEnemy:number = 0;
@@ -7,12 +8,33 @@ export function getTurnInformation(): { currentEnemy: number; currentTurn: numbe
     return { currentEnemy, currentTurn };
 }
 
-export function advance(): { currentEnemy: number; currentTurn: number } {
+export async function advance(): Promise<{ currentEnemy: number; currentTurn: number }> {
+    const settings = await getCurrentSettings();
+    const url = settings.displayURL;
+
     currentEnemy++;
     if (currentEnemy >= getCurrentEnemys().length) {
         currentEnemy = 0;
         currentTurn++;
+
+        await fetch(url + "/api/enemy/round", {
+            method: "POST",
+            body: JSON.stringify({
+                currentEnemy,
+                currentTurn,
+            }),
+        });
+
+        return { currentEnemy, currentTurn };
     }
+
+    await fetch(url + "/api/enemy/turn", {
+        method: "POST",
+        body: JSON.stringify({
+            currentEnemy,
+            currentTurn,
+        }),
+    });
 
     return { currentEnemy, currentTurn };
 }

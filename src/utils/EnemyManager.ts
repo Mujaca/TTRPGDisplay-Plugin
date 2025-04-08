@@ -1,3 +1,4 @@
+import { getCurrentSettings } from "settings";
 import { resetTurns } from "./TurnManager";
 import { v4 } from "./uuid";
 import { Observable, Subscriber } from 'rxjs';
@@ -25,26 +26,58 @@ export function getCurrentEnemys(): Enemy[] {
 	return currentEnemys;
 }
 
-export function setCurrentEnemys(enemys: Enemy[]): void {
+export async function setCurrentEnemys(enemys: Enemy[]): Promise<void> {
 	currentEnemys = enemys;
+
+    const settings = await getCurrentSettings();
+    const url = settings.displayURL;
+
+    await fetch(url + "/api/enemy", {
+        method: "POST",
+        body: JSON.stringify(currentEnemys),
+    });
 }
 
-export function addEnemy(enemy: Enemy): void {
+export async function addEnemy(enemy: Enemy): Promise<void> {
 	currentEnemys.push(enemy);
     sendEnemyListToSubscriber();
+
+    const settings = await getCurrentSettings();
+    const url = settings.displayURL;
+
+    fetch(url + "/api/enemy", {
+        method: "POST",
+        body: JSON.stringify(getCurrentEnemys()),
+    });
 }
 
-export function removeEnemy(id: string): void {
+export async function removeEnemy(id: string): Promise<void> {
 	currentEnemys = currentEnemys.filter((enemy) => enemy.id !== id);
     sendEnemyListToSubscriber();
+
+    const settings = await getCurrentSettings();
+    const url = settings.displayURL;
+
+    fetch(url + "/api/enemy/delete", {
+        method: "POST",
+        body: JSON.stringify({id}),
+    });
 }
 
-export function updateEnemy(id: string, updatedEnemy: Enemy): void {
+export async function updateEnemy(id: string, updatedEnemy: Enemy): Promise<void> {
 	const index = currentEnemys.findIndex((enemy) => enemy.id === id);
 	if (index !== -1) {
 		currentEnemys[index] = updatedEnemy;
 	}
     sendEnemyListToSubscriber();
+
+    const settings = await getCurrentSettings();
+    const url = settings.displayURL;
+
+    fetch(url + "/api/enemy/update", {
+        method: "POST",
+        body: JSON.stringify(updatedEnemy),
+    });
 }
 export function resetEnemys(): void {
 	currentEnemys = [];

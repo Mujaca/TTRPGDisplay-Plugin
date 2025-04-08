@@ -27,6 +27,7 @@ const damage = ref();
 
 function addHealth() {
     if (damage.value) {
+        enemy.value.damage -= damage.value;
         enemy.value.hp += damage.value;
         updateEnemy(enemy.value.id, enemy.value);
         damage.value = null;
@@ -37,6 +38,7 @@ function addHealth() {
 
 function removeHealth() {
     if (damage.value) {
+        enemy.value.damage += damage.value;
         enemy.value.hp -= damage.value;
         updateEnemy(enemy.value.id, enemy.value);
         damage.value = null;
