@@ -69,6 +69,9 @@
 			<button class="advance-turn" @click="advanceTurn()">
 				Advance turn
 			</button>
+            <button class="advance-turn" @click="resetEnemys()">
+                Reset
+            </button>
 		</div>
 	</div>
 </template>
@@ -83,6 +86,7 @@ import {
 	setCurrentEnemys,
 	setToBeEditedEnemy,
 	removeEnemy,
+    resetEnemys,
 	Enemy,
 } from "../../utils/EnemyManager";
 import { getTurnInformation, advance } from "../../utils/TurnManager";
@@ -156,10 +160,15 @@ function reloadView() {
 	bottom: 1rem;
 	left: 0;
 	right: 0;
+
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 0 1rem;
 }
 
 .control-footer button {
-	width: 100%;
+	width: 50%;
 }
 
 .enemy-container {

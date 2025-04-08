@@ -1,7 +1,7 @@
 import { getCurrentSettings } from "settings";
 import { resetTurns } from "./TurnManager";
 import { v4 } from "./uuid";
-import { Observable, Subscriber } from 'rxjs';
+import { Observable, Subscriber } from "rxjs";
 
 export class Enemy {
 	id: string;
@@ -15,7 +15,7 @@ export class Enemy {
 		this.name = name;
 		this.maxHp = maxHp;
 		this.hp = maxHp;
-        this.damage = 0;
+		this.damage = 0;
 	}
 }
 
@@ -29,60 +29,71 @@ export function getCurrentEnemys(): Enemy[] {
 export async function setCurrentEnemys(enemys: Enemy[]): Promise<void> {
 	currentEnemys = enemys;
 
-    const settings = await getCurrentSettings();
-    const url = settings.displayURL;
+	const settings = await getCurrentSettings();
+	const url = settings.displayURL;
 
-    await fetch(url + "/api/enemy", {
-        method: "POST",
-        body: JSON.stringify(currentEnemys),
-    });
+	await fetch(url + "/api/enemy", {
+		method: "POST",
+		body: JSON.stringify(currentEnemys),
+	});
 }
 
 export async function addEnemy(enemy: Enemy): Promise<void> {
 	currentEnemys.push(enemy);
-    sendEnemyListToSubscriber();
+	sendEnemyListToSubscriber();
 
-    const settings = await getCurrentSettings();
-    const url = settings.displayURL;
+	const settings = await getCurrentSettings();
+	const url = settings.displayURL;
 
-    fetch(url + "/api/enemy", {
-        method: "POST",
-        body: JSON.stringify(getCurrentEnemys()),
-    });
+	fetch(url + "/api/enemy", {
+		method: "POST",
+		body: JSON.stringify(getCurrentEnemys()),
+	});
 }
 
 export async function removeEnemy(id: string): Promise<void> {
 	currentEnemys = currentEnemys.filter((enemy) => enemy.id !== id);
-    sendEnemyListToSubscriber();
+	sendEnemyListToSubscriber();
 
-    const settings = await getCurrentSettings();
-    const url = settings.displayURL;
+	const settings = await getCurrentSettings();
+	const url = settings.displayURL;
 
-    fetch(url + "/api/enemy/delete", {
-        method: "POST",
-        body: JSON.stringify({id}),
-    });
+	fetch(url + "/api/enemy/delete", {
+		method: "POST",
+		body: JSON.stringify({ id }),
+	});
 }
 
-export async function updateEnemy(id: string, updatedEnemy: Enemy): Promise<void> {
+export async function updateEnemy(
+	id: string,
+	updatedEnemy: Enemy
+): Promise<void> {
 	const index = currentEnemys.findIndex((enemy) => enemy.id === id);
 	if (index !== -1) {
 		currentEnemys[index] = updatedEnemy;
 	}
-    sendEnemyListToSubscriber();
+	sendEnemyListToSubscriber();
+
+	const settings = await getCurrentSettings();
+	const url = settings.displayURL;
+
+	fetch(url + "/api/enemy/update", {
+		method: "POST",
+		body: JSON.stringify(updatedEnemy),
+	});
+}
+export async function resetEnemys(): Promise<void> {
+	currentEnemys = [];
+	resetTurns();
+	sendEnemyListToSubscriber();
 
     const settings = await getCurrentSettings();
-    const url = settings.displayURL;
+	const url = settings.displayURL;
 
-    fetch(url + "/api/enemy/update", {
-        method: "POST",
-        body: JSON.stringify(updatedEnemy),
-    });
-}
-export function resetEnemys(): void {
-	currentEnemys = [];
-    resetTurns();
-    sendEnemyListToSubscriber();
+	await fetch(url + "/api/enemy", {
+		method: "POST",
+		body: JSON.stringify(currentEnemys),
+	});
 }
 
 export function getEnemyById(id: string): Enemy | undefined {
@@ -90,30 +101,32 @@ export function getEnemyById(id: string): Enemy | undefined {
 }
 
 const observableSubscriber: Subscriber<Enemy[]>[] = [];
-export const currentEnemysObvervable: Observable<Enemy[]> = new Observable((subscriber: Subscriber<Enemy[]>) => {
-    subscriber.next(currentEnemys);
-    observableSubscriber.push(subscriber);
+export const currentEnemysObvervable: Observable<Enemy[]> = new Observable(
+	(subscriber: Subscriber<Enemy[]>) => {
+		subscriber.next(currentEnemys);
+		observableSubscriber.push(subscriber);
 
-    return function unsubscribe() {
-        const index = observableSubscriber.indexOf(subscriber);
-        if (index !== -1) {
-            return observableSubscriber.splice(index, 1);
-        }
-        
-        subscriber.complete();
-    }
-});
+		return function unsubscribe() {
+			const index = observableSubscriber.indexOf(subscriber);
+			if (index !== -1) {
+				return observableSubscriber.splice(index, 1);
+			}
+
+			subscriber.complete();
+		};
+	}
+);
 
 function sendEnemyListToSubscriber() {
-    observableSubscriber.forEach((subscriber) => {
-        subscriber.next(currentEnemys);
-    });
+	observableSubscriber.forEach((subscriber) => {
+		subscriber.next(currentEnemys);
+	});
 }
 
 export function setToBeEditedEnemy(enemy: Enemy): void {
-    toBeEditedEnemy = enemy;
+	toBeEditedEnemy = enemy;
 }
 
 export function getToBeEditedEnemy(): Enemy | undefined {
-    return toBeEditedEnemy;
+	return toBeEditedEnemy;
 }

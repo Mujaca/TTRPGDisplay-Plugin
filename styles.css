@@ -23,9 +23,13 @@
   bottom: 1rem;
   left: 0;
   right: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 0 1rem;
 }
 .control-footer button {
-  width: 100%;
+  width: 50%;
 }
 .enemy-container {
   display: flex;
