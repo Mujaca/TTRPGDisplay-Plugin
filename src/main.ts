@@ -25,7 +25,7 @@ export default class DisplayLink extends Plugin {
             (leaf) => new EnemyListView(leaf)
         );
 
-        const ribbonIconGMModal = this.addRibbonIcon('pencil', 'Display Link', (evt: MouseEvent) => {
+        this.addRibbonIcon('pencil', 'Display Link', (evt: MouseEvent) => {
 			new GMModal(this.app, this).open();
 		});
 
