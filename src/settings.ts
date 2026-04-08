@@ -1,12 +1,15 @@
 import DisplayLink from "main";
 import { App, PluginSettingTab, Setting } from "obsidian";
+import { FolderSuggest } from "utils/helper";
 
 export interface DisplayLinkSettings {
 	displayURL: string;
+    bestiarumFolder: string;
 }
 
 export const DEFAULT_SETTINGS: DisplayLinkSettings = {
 	displayURL: "http://localhost:3000",
+    bestiarumFolder: "Bestiarum",
 };
 
 export class TTRPGSettingTab extends PluginSettingTab {
@@ -34,6 +37,25 @@ export class TTRPGSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings();
                     })
             );
+        
+        new Setting(containerEl)
+            .setName("Bestiarum Folder")
+            .setDesc("The folder where the bestiarum entries are stored")
+            .addSearch((search) => {
+                search.setPlaceholder("Select the folder")
+                    .setValue(this.plugin.settings.bestiarumFolder)
+                    .onChange(async (value) => {
+                        this.plugin.settings.bestiarumFolder = value;
+                        await this.plugin.saveSettings();
+                    })
+                    
+                    const selector = new FolderSuggest(this.app, search.inputEl);
+                    selector.onSelect((value) => {
+                        search.setValue(value);
+                        this.plugin.settings.bestiarumFolder = value;
+                        this.plugin.saveSettings();
+                    });
+            })
     }
 }
 
