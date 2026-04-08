@@ -1,5 +1,5 @@
 import { Command, MarkdownView } from "obsidian";
-import { addEnemy, Enemy } from "utils/EnemyManager";
+import { addEnemy, Enemy } from "manager/EnemyManager";
 
 export default async function callback() {
 	//@ts-ignore

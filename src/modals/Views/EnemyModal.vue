@@ -17,12 +17,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { placeholderPNG } from '../../utils/variables';
 import { setIcon, Notice } from 'obsidian';
 
-import { getToBeEditedEnemy, updateEnemy } from '../../utils/EnemyManager';
-const enemy = ref(getToBeEditedEnemy());
+import { Enemy, getToBeEditedEnemy, updateEnemy } from '../../manager/EnemyManager';
+
+let enemyToBeEdited: Enemy | undefined = getToBeEditedEnemy();
+if(enemyToBeEdited === undefined) {
+    enemyToBeEdited = new Enemy('Fehler', 0);
+}
+
+const enemy:Ref<Enemy> = ref(enemyToBeEdited);
 const damage = ref();
 
 function addHealth() {

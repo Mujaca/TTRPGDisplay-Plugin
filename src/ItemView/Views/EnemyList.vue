@@ -88,15 +88,15 @@ import {
 	removeEnemy,
     resetEnemys,
 	Enemy,
-} from "../../utils/EnemyManager";
-import { getTurnInformation, advance } from "../../utils/TurnManager";
+} from "../../manager/EnemyManager";
+import { getTurnInformation, advance } from "../../manager/TurnManager";
 import { EnemyModal } from "../../modals/EnemyModal";
 
 import { placeholderPNG } from "../../utils/variables";
 
 const reload: Ref<boolean> = ref(false);
 const ignoreUpdate: Ref<boolean> = ref(false);
-const currentEnemys: Ref<Enemy> = ref([]);
+const currentEnemys: Ref<Enemy[]> = ref([]);
 
 const currentEnemyTurn: Ref<number> = ref(0);
 const currentTurn: Ref<number> = ref(0);

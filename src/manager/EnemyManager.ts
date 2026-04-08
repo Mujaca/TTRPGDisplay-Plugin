@@ -1,6 +1,6 @@
 import { getCurrentSettings } from "settings";
 import { resetTurns } from "./TurnManager";
-import { v4 } from "./uuid";
+import { v4 } from "../utils/uuid";
 import { Observable, Subscriber } from "rxjs";
 
 export class Enemy {
