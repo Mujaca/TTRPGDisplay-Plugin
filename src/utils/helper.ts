@@ -5,9 +5,14 @@ export class FolderSuggest extends AbstractInputSuggest<string> {
 		const folders = this.app.vault.getAllLoadedFiles();
 
 		const folderPaths = folders
-        .filter((file) => file instanceof TFolder)
-        .filter((folder) => folder.path.toLowerCase().includes(query.toLowerCase()))
-        .map((folder) => `${folder.path.endsWith("/") ? folder.path : folder.path + "/"}`);
+			.filter((file) => file instanceof TFolder)
+			.filter((folder) =>
+				folder.path.toLowerCase().includes(query.toLowerCase()),
+			)
+			.map(
+				(folder) =>
+					`${folder.path.endsWith("/") ? folder.path : folder.path + "/"}`,
+			);
 
 		return folderPaths;
 	}

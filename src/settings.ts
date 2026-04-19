@@ -1,4 +1,5 @@
 import DisplayLink from "main";
+import { rebuildMonsterArray } from "manager/BestiarumManager";
 import { App, PluginSettingTab, Setting } from "obsidian";
 import { FolderSuggest } from "utils/helper";
 
@@ -54,6 +55,7 @@ export class TTRPGSettingTab extends PluginSettingTab {
                         search.setValue(value);
                         this.plugin.settings.bestiarumFolder = value;
                         this.plugin.saveSettings();
+                        rebuildMonsterArray();
                     });
             })
     }
@@ -62,12 +64,16 @@ export class TTRPGSettingTab extends PluginSettingTab {
 let currentSettings : DisplayLinkSettings | null = null;
 
 export async function getCurrentSettings() {
+    console.log("settings ", currentSettings)
     if (currentSettings) {
         return currentSettings;
     }
+
     // ts ignore, because app is a global variable
     // @ts-ignore
-    const settings = await app.vault.getConfig("displayLinkSettings");
+    console.log("settings from vault ", app.plugins.plugins["de-mujaca-ttrpg-display-link"].settings) // @ts-ignore
+    // @ts-ignore
+    const settings = app.plugins.plugins["de-mujaca-ttrpg-display-link"].settings;
     if (settings) {
         currentSettings = settings;
         return settings;

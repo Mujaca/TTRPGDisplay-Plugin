@@ -1,8 +1,8 @@
 {
 	"id": "de-mujaca-ttrpg-display-link",
 	"name": "TTRPG Display Link",
-	"version": "1.0.3",
-	"minAppVersion": "0.15.0",
+	"version": "1.1.0",
+	"minAppVersion": "1.15.0",
 	"description": "Link Notes to the TTRPG Display.",
 	"author": "Mujaca",
 	"authorUrl": "https://mujaca.de",

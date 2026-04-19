@@ -1,6 +1,6 @@
 <template>
 	<div class="main">
-		<h1>Zug Reinfolge</h1>
+		<h1>Zug Reihenfolge</h1>
 		<draggable
 			v-if="!reload"
 			v-model="currentEnemys"

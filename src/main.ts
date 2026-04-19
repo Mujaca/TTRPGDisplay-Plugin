@@ -12,6 +12,10 @@ import { createStatusBar } from "statusBar";
 import { openEnemyListCommand } from "commands/open-enemy-list";
 import { EnemyListView, view_type } from "ItemView/EnemyList";
 import { sendToEnemyListCommand } from "commands/send-to-enemy-list";
+import { rebuildMonsterArray } from "manager/BestiarumManager";
+import { BeastiarumModal } from "modals/BeastiarumModal";
+
+import * as BestiarumManager from "manager/BestiarumManager";
 
 export default class DisplayLink extends Plugin {
 	settings: DisplayLinkSettings;
@@ -29,6 +33,10 @@ export default class DisplayLink extends Plugin {
 			new GMModal(this.app, this).open();
 		});
 
+        this.addRibbonIcon('star', 'Beastiarum', (evt: MouseEvent) => {
+			new BeastiarumModal(this.app, this).open();
+		});
+
 		createStatusBar(this);
 
         this.addCommand(sendToDisplayLinkCommand);
@@ -39,6 +47,25 @@ export default class DisplayLink extends Plugin {
         this.addCommand(sendToEnemyListCommand);
 
 		this.addSettingTab(new TTRPGSettingTab(this.app, this));
+
+        rebuildMonsterArray();
+
+        this.registerEvent(this.app.vault.on("create", (event) => {
+            BestiarumManager.handleCreateEvent(event);
+        }));
+
+        this.registerEvent(this.app.vault.on("modify", (event) => {
+            console.log("File modified: ", event.path);
+            BestiarumManager.handleUpdateEvent(event);
+        }));
+
+        this.registerEvent(this.app.vault.on("delete", (event) => {
+            BestiarumManager.handleDeleteEvent(event);
+        }))
+
+        this.registerEvent(this.app.vault.on("rename", (eventNewFile, oldPath) => {
+            BestiarumManager.handleRenameEvent(eventNewFile, oldPath);
+        }))
 	}
 
 	onunload() {}

@@ -74,3 +74,121 @@
 .enemy-text.active {
   color: var(--color-accent);
 }
+.badge {
+  color: var(--tag-color);
+  padding: 0.2rem 0.7rem;
+  border-radius: 8rem;
+  font-size: 0.7rem;
+  height: min-content;
+  width: min-content;
+  min-width: 3rem;
+  word-break: keep-all;
+  white-space: nowrap;
+  text-align: center;
+}
+.beastiarum-header {
+  display: flex;
+  flex-direction: row;
+}
+.beastiarum-header h1 {
+  margin: 0;
+}
+.beastiarum-filter-container {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.bestiarum-slider-filter {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+.bestiarum-slider-filter .badge {
+  font-size: 0.9rem;
+  background-color: var(--color-base-40);
+  cursor: pointer;
+  position: relative;
+}
+.bestiarum-slider-filter .badge:hover {
+  background-color: var(--color-base-30);
+}
+.bestiarum-slider-filter .badge.active {
+  background-color: var(--color-blue);
+}
+.filter-indicator {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  font-size: 0.6rem;
+  background-color: var(--tag-background);
+  color: var(--tag-color);
+  border-radius: 50%;
+  width: 1.2rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.filter-input {
+  position: absolute;
+  bottom: -2.5rem;
+  left: 0.1rem;
+  padding: 0rem;
+}
+.monster-list-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.monster-card {
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+.monster-badge-container {
+  margin-top: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem;
+}
+.monster-card-header .badge {
+  background-color: var(--tag-background);
+}
+.monster-card-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+.monster-card-header h2 p {
+  margin: 0;
+}
+.monster-card-header {
+  margin-bottom: 0.5rem;
+  display: flex;
+  gap: 0.3rem;
+}
+.monster-card-header button {
+  margin-left: auto;
+  width: 20%;
+}
+.monster-information {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.monster-information span {
+  font-size: 0.8rem;
+}
+.monster-information hr {
+  margin: 0.5rem 0;
+}
+.information-group {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
