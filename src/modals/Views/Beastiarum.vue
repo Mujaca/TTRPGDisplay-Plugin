@@ -537,7 +537,6 @@ document.addEventListener("click", (event) => {
 
 <style>
 .badge {
-	color: var(--tag-color);
 	padding: 0.2rem 0.7rem;
 	border-radius: 8rem;
 	font-size: 0.7rem;
@@ -579,13 +578,15 @@ document.addEventListener("click", (event) => {
 
 .bestiarum-slider-filter .badge {
 	font-size: 0.9rem;
-	background-color: var(--color-base-40);
+	background-color: var(--background-secondary-alt);
 	cursor: pointer;
 	position: relative;
+    box-shadow: var(--input-shadow);
 }
 
 .bestiarum-slider-filter .badge:hover {
-	background-color: var(--color-base-30);
+	background-color: var(--background-modifier-hover);
+    box-shadow: var(--input-shadow-hover);
 }
 
 .bestiarum-slider-filter .badge.active {
@@ -622,9 +623,10 @@ document.addEventListener("click", (event) => {
 }
 
 .monster-card {
-	border: 1px solid white;
 	border-radius: 5px;
 	padding: 0.5rem;
+    box-shadow: var(--input-shadow);
+    max-width: calc(25% - 1rem);
 }
 
 .monster-badge-container {
@@ -676,5 +678,9 @@ document.addEventListener("click", (event) => {
 	display: flex;
 	flex-direction: row;
 	gap: 1rem;
+}
+
+hr {
+    border-top: 1px solid var(--divider-color);
 }
 </style>
