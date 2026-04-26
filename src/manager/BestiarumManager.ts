@@ -52,10 +52,16 @@ export class Monster {
 		this.getData();
 	}
 
-	async getData(): Promise<MonsterData> {
+	async getData(): Promise<MonsterData | undefined> {
 		if (this.data) return this.data;
 
-		// ts ignore, because app is a global variable
+		await this.refreshData();
+
+		return this.data;
+	}
+
+    async refreshData():Promise<MonsterData> {
+        // ts ignore, because app is a global variable
 		// @ts-ignore
 		const file: TFile = (await app.vault.getAbstractFileByPath(
 			this.path,
@@ -67,10 +73,13 @@ export class Monster {
 			throw new Error("No frontmatter found for monster: " + this.name);
 		}
 
-		this.data = frontMatter as MonsterData;
+        const data = frontMatter as MonsterData;
+        this.data = data;
 
-		return this.data;
-	}
+
+        return data;
+    }
+
 }
 
 type monsterObject = {
@@ -137,7 +146,7 @@ export async function handleUpdateEvent(
     const path = eventFile.path;
     
     if(monsters[path]) {
-        await monsters[path].getData();
+        await monsters[path].refreshData();
         updateMonsterForSubscriber();
     }
 }
@@ -171,14 +180,12 @@ export async function handleRenameEvent(
 export async function rebuildMonsterArray() {
 	monsters = {};
 	const folder = await getBestiarumFolder();
-    console.log("Rebuilding monster array for folder: ", folder);
 
 	// @ts-ignore
 	const files = app.vault
 		.getFiles()
 		.filter((file: TFile) => file.path.startsWith(folder))
 		.filter((file: TFile) => file.extension === "md");
-    console.log("files", files)
 
 	for (const file of files) {
 		const path = file.path;

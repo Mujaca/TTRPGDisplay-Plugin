@@ -64,14 +64,11 @@ export class TTRPGSettingTab extends PluginSettingTab {
 let currentSettings : DisplayLinkSettings | null = null;
 
 export async function getCurrentSettings() {
-    console.log("settings ", currentSettings)
     if (currentSettings) {
         return currentSettings;
     }
 
     // ts ignore, because app is a global variable
-    // @ts-ignore
-    console.log("settings from vault ", app.plugins.plugins["de-mujaca-ttrpg-display-link"].settings) // @ts-ignore
     // @ts-ignore
     const settings = app.plugins.plugins["de-mujaca-ttrpg-display-link"].settings;
     if (settings) {

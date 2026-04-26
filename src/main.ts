@@ -1,8 +1,10 @@
 import { GMModal } from "modals/GMModal";
+import { Plugin } from "obsidian";
 import {
-	Plugin,
-} from "obsidian";
-import { DEFAULT_SETTINGS, DisplayLinkSettings, TTRPGSettingTab } from "settings";
+	DEFAULT_SETTINGS,
+	DisplayLinkSettings,
+	TTRPGSettingTab,
+} from "settings";
 
 import { resetDisplayLinkCommand } from "commands/reset-display-link";
 import { playMusicCommand } from "commands/play-music-display-link";
@@ -19,53 +21,65 @@ import * as BestiarumManager from "manager/BestiarumManager";
 
 export default class DisplayLink extends Plugin {
 	settings: DisplayLinkSettings;
-    statusBar: HTMLElement;
+	statusBar: HTMLElement;
 
 	async onload() {
 		await this.loadSettings();
 
-        this.registerView(
-            view_type,
-            (leaf) => new EnemyListView(leaf)
-        );
+		this.registerView(view_type, (leaf) => new EnemyListView(leaf));
 
-        this.addRibbonIcon('pencil', 'Display Link', (evt: MouseEvent) => {
+		this.addRibbonIcon("pencil", "Display Link", (evt: MouseEvent) => {
 			new GMModal(this.app, this).open();
 		});
 
-        this.addRibbonIcon('star', 'Beastiarum', (evt: MouseEvent) => {
+		this.addRibbonIcon("star", "Beastiarum", (evt: MouseEvent) => {
 			new BeastiarumModal(this.app, this).open();
 		});
 
 		createStatusBar(this);
 
-        this.addCommand(sendToDisplayLinkCommand);
-        this.addCommand(resetDisplayLinkCommand);
-        this.addCommand(playMusicCommand);
-        this.addCommand(pauseMusicCommand);
-        this.addCommand(openEnemyListCommand);
-        this.addCommand(sendToEnemyListCommand);
+		this.addCommand(sendToDisplayLinkCommand);
+		this.addCommand(resetDisplayLinkCommand);
+		this.addCommand(playMusicCommand);
+		this.addCommand(pauseMusicCommand);
+		this.addCommand(openEnemyListCommand);
+		this.addCommand(sendToEnemyListCommand);
 
 		this.addSettingTab(new TTRPGSettingTab(this.app, this));
 
-        rebuildMonsterArray();
+		this.app.workspace.onLayoutReady(() => {
+			rebuildMonsterArray();
+		});
 
-        this.registerEvent(this.app.vault.on("create", (event) => {
-            BestiarumManager.handleCreateEvent(event);
-        }));
+		this.registerEvent(
+			this.app.vault.on("create", (event) => {
+                // give obsidian some time to write the changes to the file before we try to read it
+                setTimeout(() => {
+                    BestiarumManager.handleCreateEvent(event);
+                }, 100);
+			}),
+		);
 
-        this.registerEvent(this.app.vault.on("modify", (event) => {
-            console.log("File modified: ", event.path);
-            BestiarumManager.handleUpdateEvent(event);
-        }));
+		this.registerEvent(
+			this.app.vault.on("modify", (event) => {
+                // give obsidian some time to write the changes to the file before we try to read it
+                setTimeout(() => {
+                    BestiarumManager.handleUpdateEvent(event);
+                }, 100);
+			}),
+		);
 
-        this.registerEvent(this.app.vault.on("delete", (event) => {
-            BestiarumManager.handleDeleteEvent(event);
-        }))
+		this.registerEvent(
+			this.app.vault.on("delete", (event) => {
+				BestiarumManager.handleDeleteEvent(event);
+			}),
+		);
 
-        this.registerEvent(this.app.vault.on("rename", (eventNewFile, oldPath) => {
-            BestiarumManager.handleRenameEvent(eventNewFile, oldPath);
-        }))
+		this.registerEvent(
+			this.app.vault.on("rename", (eventNewFile, oldPath) => {
+				BestiarumManager.handleRenameEvent(eventNewFile, oldPath);
+			}),
+		);
 	}
 
 	onunload() {}
@@ -74,7 +88,7 @@ export default class DisplayLink extends Plugin {
 		this.settings = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
-			await this.loadData()
+			await this.loadData(),
 		);
 	}
 
@@ -82,4 +96,3 @@ export default class DisplayLink extends Plugin {
 		await this.saveData(this.settings);
 	}
 }
-
