@@ -26,6 +26,7 @@ export class EnemyListView extends ItemView {
 		let content = container.createEl("div", {
 			cls: "my-plugin-view",
 		});
+        // @ts-ignore funnily its not readonly, so shut up typescript, thanks
         content.style = "height: 100%";
 
 		this.vueApp.mount(content);
